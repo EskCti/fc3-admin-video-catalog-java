@@ -1,6 +1,7 @@
 package br.com.eskcti.admin.catalog.domain.category;
 
 import br.com.eskcti.admin.catalog.domain.AggregateRoot;
+import br.com.eskcti.admin.catalog.domain.validation.ValidationHandler;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -39,6 +40,11 @@ public class Category extends AggregateRoot<CategoryID> {
         final var id = CategoryID.unique();
         final var now = Instant.now();
         return new Category(id, aName, aDescription, aIsActive, now, now, null);
+    }
+
+    @Override
+    public void validate(final ValidationHandler handler) {
+        new CategoryValidator(this, handler).validate();
     }
 
     public CategoryID getId() {
